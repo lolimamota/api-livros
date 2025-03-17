@@ -20,7 +20,7 @@ init_db()
 
 @app.route("/")
 def home_page():
-    return '<h2>Lolozinha</h2>';
+    return '<h2>Acredite, foi iniciado um banco de dados aqui!</h2>';
 
 
 @app.route('/donate', methods=['POST'])
