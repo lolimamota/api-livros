@@ -38,11 +38,30 @@ def donate():
         return jsonify({'erro': "Todos os campos são obrigatórios"}), 400
     
     with sqlite3.connect('database.db') as conn:
-        conn.execute(f"""INSERT INTO livros(title,category,author,image_url) VALUES (?, ? , ? , ?)
+        conn.execute("""INSERT INTO livros(title,category,author,image_url) VALUES (? , ? , ? , ?)
                     """, (title, category, author, image_url))
         conn.commit()
 
         return jsonify({'mensagem': "Livro cadastrado com sucesso!"}), 201
+    
+
+@app.route('/donatedBooks', methods = ['GET'])
+def show_books():
+    with sqlite3.connect('database.db') as conn:
+        books = conn.execute("SELECT * FROM livros").fetchall()
+
+    formatedBooks = []
+
+    for book in books:
+        dictionaryBooks = {
+            "id": book[0],
+            "title": book[1],
+            "category": book[2],
+            "author": book[3],
+            "image_url": book[4]
+        }
+        formatedBooks.append(dictionaryBooks)
+    return jsonify(formatedBooks)
 
 if __name__ == '__main__':
     app.run(debug=True)
