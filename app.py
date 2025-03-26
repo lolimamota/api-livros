@@ -23,7 +23,7 @@ init_db()
 
 @app.route("/")
 def home_page():
-    return '<h2>Acredite, foi iniciado um banco de dados aqui!</h2>';
+    return render_template("index.html")
 
 
 @app.route('/donate', methods=['POST'])
@@ -65,6 +65,21 @@ def show_books():
         }
         formatedBooks.append(dictionaryBooks)
     return jsonify(formatedBooks)
+
+@app.route('/donatedBooks/<int:book_id>', methods=['DELETE'])
+def exclude_book(book_id):
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM livros WHERE id = ?", (book_id))
+        conn.commit()
+    
+    if cursor.rowcount == 0:
+        return jsonify({"erro": "Este livro existe?"}), 400
+    
+    return jsonify({"mensage": "Retiramos este livro da base!"}), 200
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
