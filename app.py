@@ -66,11 +66,11 @@ def show_books():
         formatedBooks.append(dictionaryBooks)
     return jsonify(formatedBooks)
 
-@app.route('/donatedBooks/<int:book_id>', methods=['DELETE'])
-def exclude_book(book_id):
+@app.route('/donatedBooks/<int:id>', methods=['DELETE'])
+def exclude_book(id):
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM livros WHERE id = ?", (book_id))
+        cursor.execute("DELETE FROM livros WHERE id = ?", (id))
         conn.commit()
     
     if cursor.rowcount == 0:
