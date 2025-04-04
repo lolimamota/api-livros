@@ -34,10 +34,10 @@ def donate():
     author = data.get("author")
     image_url = data.get("image_url")
 
-    if not title or not category or not author or not image_url:
+    # if not title or not category or not author or not image_url:
     
     # if not all([title, category, author, image_url]): outra forma de escrever o comando acima para pegar todos os itens da tabela e dar a ordem abaixo.
-
+    if not all([title, category, author, image_url]):
         return jsonify({'erro': "Todos os campos são obrigatórios"}), 400
     
     with sqlite3.connect('database.db') as conn:
@@ -70,7 +70,7 @@ def show_books():
 def exclude_book(id):
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM livros WHERE id = ?", (id))
+        cursor.execute("DELETE FROM livros WHERE id = ?", (id, ))
         conn.commit()
     
     if cursor.rowcount == 0:
