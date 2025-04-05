@@ -69,7 +69,7 @@ def show_books():
     return jsonify(formatedBooks)
 
 
-@app.route('/donatedBooks/<int:id>', methods=['DELETE'])
+@app.route('/delete/<int:id>', methods=['DELETE'])
 def exclude_book(id):
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
@@ -82,7 +82,7 @@ def exclude_book(id):
     return jsonify({"mensage": "Retiramos este livro da base!"}), 200
 
 
-@app.route('/donatedBooks/<int:id>', methods=['PUT'])
+@app.route('/update/<int:id>', methods=['PUT'])
 def update_book(id):
     data = request.get_json()
     title = data.get("title")
